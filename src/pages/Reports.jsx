@@ -139,7 +139,8 @@ const Reports = () => {
 
   return (
     <div className="space-y-6">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Header – stacks on mobile, row on sm+ */}
+      <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h1 className="text-xl font-black text-slate-800 dark:text-white uppercase tracking-wider flex items-center gap-2">
             <FileText className="h-5 w-5 text-emerald-500" />
@@ -150,33 +151,34 @@ const Reports = () => {
           </p>
         </div>
 
-        {/* Download Buttons */}
-        <div className="flex gap-3">
+        {/* Download Buttons – always visible, wrap on very small screens */}
+        <div className="flex gap-2 flex-wrap">
           <button
             onClick={handleExportCSV}
             disabled={filteredExpenses.length === 0}
-            className="flex items-center gap-2 px-4 py-2 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-4 py-2.5 bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex-1 sm:flex-none justify-center"
           >
             <FileSpreadsheet className="h-4 w-4" />
-            CSV
+            Export CSV
           </button>
           <button
             onClick={handleExportPDF}
             disabled={filteredExpenses.length === 0}
-            className="flex items-center gap-2 px-4 py-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+            className="flex items-center gap-2 px-4 py-2.5 bg-emerald-500 hover:bg-emerald-600 text-white font-bold text-xs rounded-xl shadow-lg shadow-emerald-500/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed flex-1 sm:flex-none justify-center"
           >
             <Download className="h-4 w-4" />
-            PDF
+            Export PDF
           </button>
         </div>
       </div>
 
-      {/* Controls */}
-      <div className="glass-card p-4 flex flex-col sm:flex-row items-center gap-4">
+      {/* Controls – vertical on mobile */}
+      <div className="glass-card p-4 flex flex-col gap-3 sm:flex-row sm:items-center">
+        {/* Monthly / Yearly toggle */}
         <div className="flex bg-slate-100 dark:bg-slate-800/80 p-1 rounded-lg w-full sm:w-auto">
           <button
             onClick={() => setReportType('monthly')}
-            className={`flex-1 sm:flex-none px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
+            className={`flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all ${
               reportType === 'monthly' 
                 ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm' 
                 : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'
@@ -186,7 +188,7 @@ const Reports = () => {
           </button>
           <button
             onClick={() => setReportType('yearly')}
-            className={`flex-1 sm:flex-none px-4 py-1.5 text-xs font-bold rounded-md transition-all ${
+            className={`flex-1 sm:flex-none px-4 py-2 text-xs font-bold rounded-md transition-all ${
               reportType === 'yearly' 
                 ? 'bg-white dark:bg-slate-700 text-slate-800 dark:text-white shadow-sm' 
                 : 'text-slate-500 hover:text-slate-700 dark:text-slate-400'
@@ -196,23 +198,23 @@ const Reports = () => {
           </button>
         </div>
 
-        <div className="flex gap-3 w-full sm:w-auto ml-auto">
+        {/* Date selects – full width on mobile */}
+        <div className="flex gap-3 w-full sm:w-auto sm:ml-auto">
           {reportType === 'monthly' && (
             <select
               value={selectedMonth}
               onChange={(e) => setSelectedMonth(Number(e.target.value))}
-              className="px-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 flex-1 sm:flex-none"
+              className="px-3 py-2.5 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 flex-1 sm:flex-none"
             >
               {months.map((m, idx) => (
                 <option key={idx} value={idx}>{m}</option>
               ))}
             </select>
           )}
-          
           <select
             value={selectedYear}
             onChange={(e) => setSelectedYear(Number(e.target.value))}
-            className="px-3 py-2 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 flex-1 sm:flex-none"
+            className="px-3 py-2.5 text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-lg text-slate-700 dark:text-slate-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 flex-1 sm:flex-none"
           >
             {years.map(y => (
               <option key={y} value={y}>{y}</option>
@@ -221,8 +223,8 @@ const Reports = () => {
         </div>
       </div>
 
-      {/* Summary Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+      {/* Summary Cards – 1 col on mobile, 3 on sm+ */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="glass-card p-5">
           <div className="flex justify-between items-start">
             <div>
@@ -231,7 +233,7 @@ const Reports = () => {
                 {settings.currency}{totalSpent.toLocaleString(undefined, { minimumFractionDigits: 2 })}
               </h3>
             </div>
-            <div className="p-2.5 bg-rose-500/10 text-rose-500 rounded-xl">
+            <div className="p-2.5 bg-rose-500/10 text-rose-500 rounded-xl flex-shrink-0">
               <TrendingUp className="h-5 w-5" />
             </div>
           </div>
@@ -245,7 +247,7 @@ const Reports = () => {
                 {totalTransactions}
               </h3>
             </div>
-            <div className="p-2.5 bg-blue-500/10 text-blue-500 rounded-xl">
+            <div className="p-2.5 bg-blue-500/10 text-blue-500 rounded-xl flex-shrink-0">
               <List className="h-5 w-5" />
             </div>
           </div>
@@ -253,13 +255,13 @@ const Reports = () => {
 
         <div className="glass-card p-5">
           <div className="flex justify-between items-start">
-            <div>
+            <div className="min-w-0">
               <p className="text-[10px] font-bold text-slate-400 uppercase tracking-wider">Top Category</p>
-              <h3 className="text-xl font-black mt-1 text-slate-800 dark:text-white truncate max-w-[120px]">
+              <h3 className="text-xl font-black mt-1 text-slate-800 dark:text-white truncate">
                 {topCategory ? topCategory.name : 'N/A'}
               </h3>
             </div>
-            <div className="p-2.5 bg-emerald-500/10 text-emerald-500 rounded-xl">
+            <div className="p-2.5 bg-emerald-500/10 text-emerald-500 rounded-xl flex-shrink-0">
               <PieChart className="h-5 w-5" />
             </div>
           </div>
@@ -271,7 +273,7 @@ const Reports = () => {
         </div>
       </div>
 
-      {/* Data Table */}
+      {/* Transaction History */}
       <div className="glass-card overflow-hidden">
         <div className="p-4 border-b border-slate-200 dark:border-slate-800 flex items-center gap-2">
           <Calendar className="h-4 w-4 text-slate-400" />
@@ -279,53 +281,100 @@ const Reports = () => {
             Transaction History
           </h3>
         </div>
-        
-        {filteredExpenses.length > 0 ? (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
-                <tr>
-                  <th className="px-6 py-4 font-semibold">Date</th>
-                  <th className="px-6 py-4 font-semibold">Category</th>
-                  <th className="px-6 py-4 font-semibold">Description</th>
-                  <th className="px-6 py-4 font-semibold text-right">Amount</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
-                {filteredExpenses.map((exp) => {
-                  const categoryObj = categories.find(c => c.id === exp.category) || { name: 'Other', color: '#64748b' };
-                  const IconComponent = getCategoryIcon(exp.category);
 
-                  return (
-                    <tr key={exp.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
-                      <td className="px-6 py-4 whitespace-nowrap text-slate-600 dark:text-slate-400 font-medium">
-                        {new Date(exp.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap">
-                        <div className="flex items-center gap-2">
-                          <div 
-                            className="p-1.5 rounded-md text-white"
-                            style={{ backgroundColor: categoryObj.color }}
-                          >
-                            <IconComponent className="h-3 w-3" />
+        {filteredExpenses.length > 0 ? (
+          <>
+            {/* ── Mobile Card List (< md) ── */}
+            <div className="md:hidden divide-y divide-slate-100 dark:divide-slate-800/60">
+              {filteredExpenses.map((exp) => {
+                const categoryObj = categories.find(c => c.id === exp.category) || { name: 'Other', color: '#64748b' };
+                const IconComponent = getCategoryIcon(exp.category);
+                return (
+                  <div
+                    key={exp.id}
+                    className="p-4 flex items-start gap-3 hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors"
+                  >
+                    {/* Category icon */}
+                    <div
+                      className="p-2.5 rounded-xl text-white flex-shrink-0 mt-0.5"
+                      style={{ backgroundColor: categoryObj.color }}
+                    >
+                      <IconComponent className="h-4 w-4" />
+                    </div>
+
+                    {/* Info */}
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-start justify-between gap-2">
+                        <p className="text-sm font-bold text-slate-800 dark:text-slate-200 truncate leading-snug">
+                          {exp.description || categoryObj.name}
+                        </p>
+                        <p className="text-sm font-black text-slate-800 dark:text-slate-100 flex-shrink-0 ml-1">
+                          {settings.currency}{exp.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2 mt-1.5 flex-wrap">
+                        <span
+                          className="text-[10px] font-bold px-2 py-0.5 rounded-full text-white"
+                          style={{ backgroundColor: categoryObj.color }}
+                        >
+                          {categoryObj.name}
+                        </span>
+                        <span className="text-[10px] text-slate-400 dark:text-slate-500 font-semibold">
+                          {new Date(exp.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* ── Desktop Table (md+) ── */}
+            <div className="hidden md:block overflow-x-auto">
+              <table className="w-full text-left text-sm">
+                <thead className="bg-slate-50 dark:bg-slate-900/50 text-slate-500 dark:text-slate-400 text-xs uppercase tracking-wider border-b border-slate-200 dark:border-slate-800">
+                  <tr>
+                    <th className="px-6 py-4 font-semibold">Date</th>
+                    <th className="px-6 py-4 font-semibold">Category</th>
+                    <th className="px-6 py-4 font-semibold">Description</th>
+                    <th className="px-6 py-4 font-semibold text-right">Amount</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 dark:divide-slate-800/60">
+                  {filteredExpenses.map((exp) => {
+                    const categoryObj = categories.find(c => c.id === exp.category) || { name: 'Other', color: '#64748b' };
+                    const IconComponent = getCategoryIcon(exp.category);
+                    return (
+                      <tr key={exp.id} className="hover:bg-slate-50/50 dark:hover:bg-slate-800/20 transition-colors">
+                        <td className="px-6 py-4 whitespace-nowrap text-slate-600 dark:text-slate-400 font-medium">
+                          {new Date(exp.date).toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric' })}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap">
+                          <div className="flex items-center gap-2">
+                            <div
+                              className="p-1.5 rounded-md text-white"
+                              style={{ backgroundColor: categoryObj.color }}
+                            >
+                              <IconComponent className="h-3 w-3" />
+                            </div>
+                            <span className="font-semibold text-slate-700 dark:text-slate-300">
+                              {categoryObj.name}
+                            </span>
                           </div>
-                          <span className="font-semibold text-slate-700 dark:text-slate-300">
-                            {categoryObj.name}
-                          </span>
-                        </div>
-                      </td>
-                      <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
-                        {exp.description || '-'}
-                      </td>
-                      <td className="px-6 py-4 whitespace-nowrap text-right font-black text-slate-800 dark:text-slate-200">
-                        {settings.currency}{exp.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </div>
+                        </td>
+                        <td className="px-6 py-4 text-slate-600 dark:text-slate-400">
+                          {exp.description || '-'}
+                        </td>
+                        <td className="px-6 py-4 whitespace-nowrap text-right font-black text-slate-800 dark:text-slate-200">
+                          {settings.currency}{exp.amount.toLocaleString(undefined, { minimumFractionDigits: 2 })}
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </div>
+          </>
         ) : (
           <div className="p-12 text-center text-slate-400 dark:text-slate-500">
             <p className="font-semibold">No transactions found for this period.</p>

@@ -370,21 +370,16 @@ const Dashboard = () => {
                     </span>
                   </div>
                 </div>
-                {/* Custom Legend */}
-                <div className="grid grid-cols-2 gap-2 mt-4 max-h-24 overflow-y-auto pr-1">
-                  {categoryData.slice(0, 4).map((entry, index) => (
-                    <div key={index} className="flex items-center gap-2">
-                      <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: entry.color }} />
+                {/* Custom Legend – all categories */}
+                <div className="grid grid-cols-2 gap-x-3 gap-y-2 mt-4 max-h-32 overflow-y-auto pr-1">
+                  {categoryData.map((entry, index) => (
+                    <div key={index} className="flex items-center gap-2 min-w-0">
+                      <div className="w-2.5 h-2.5 rounded-full flex-shrink-0" style={{ backgroundColor: entry.color }} />
                       <span className="text-xs text-slate-500 dark:text-slate-400 truncate font-medium">
                         {entry.name}
                       </span>
                     </div>
                   ))}
-                  {categoryData.length > 4 && (
-                    <div className="text-[10px] text-slate-400 dark:text-slate-500 col-span-2 text-center pt-1 font-semibold">
-                      + {categoryData.length - 4} more categories
-                    </div>
-                  )}
                 </div>
               </>
             ) : (
