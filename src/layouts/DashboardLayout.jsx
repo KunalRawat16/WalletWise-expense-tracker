@@ -100,8 +100,17 @@ const DashboardLayout = () => {
         </div>
       </aside>
 
+      {/* Floating Action Button - Mobile only */}
+      <button 
+        onClick={() => setIsModalOpen(true)}
+        className="md:hidden fixed bottom-24 right-6 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-xl shadow-emerald-500/30 z-30 transition-all hover:scale-110 active:scale-95"
+        aria-label="Add Expense"
+      >
+        <Plus className="h-6 w-6" />
+      </button>
+
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col md:pl-64 pb-20 md:pb-0 min-h-screen">
+      <div className="flex-1 flex flex-col md:pl-64 min-h-screen">
         {/* Top Header */}
         <header className="sticky top-0 z-20 flex items-center justify-between px-4 sm:px-6 py-3 sm:py-4 bg-white/80 dark:bg-dark-bg/80 backdrop-blur-md border-b border-slate-200/50 dark:border-slate-800/50 transition-colors duration-300">
           <div className="truncate pr-2 max-w-[50%] sm:max-w-none">
@@ -144,39 +153,30 @@ const DashboardLayout = () => {
         </header>
 
         {/* Dynamic Route Content */}
-        <main className="flex-1 p-4 sm:p-6 max-w-7xl w-full mx-auto overflow-x-hidden">
+        <main className="flex-1 p-4 sm:p-6 max-w-7xl w-full mx-auto overflow-x-hidden mb-16 md:mb-0">
           {isLoading ? <DashboardSkeleton /> : <Outlet />}
         </main>
+
+        {/* Bottom Nav Bar - Mobile only */}
+        <nav className="md:hidden sticky bottom-0 w-full bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 flex justify-around py-3 z-30 transition-colors duration-300 mt-auto">
+          {navItems.map((item) => {
+            const Icon = item.icon;
+            const active = isActive(item.path);
+            return (
+              <Link 
+                key={item.name} 
+                to={item.path} 
+                className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-all ${
+                  active ? 'text-emerald-500 scale-105' : 'text-slate-400 dark:text-slate-500'
+                }`}
+              >
+                <Icon className="h-5.5 w-5.5" />
+                <span>{item.name.split(' ')[0]}</span>
+              </Link>
+            );
+          })}
+        </nav>
       </div>
-
-      {/* Floating Action Button - Mobile only */}
-      <button 
-        onClick={() => setIsModalOpen(true)}
-        className="md:hidden fixed bottom-24 right-6 bg-emerald-500 hover:bg-emerald-600 text-white p-4 rounded-full shadow-xl shadow-emerald-500/30 z-30 transition-all hover:scale-110 active:scale-95"
-        aria-label="Add Expense"
-      >
-        <Plus className="h-6 w-6" />
-      </button>
-
-      {/* Bottom Nav Bar - Mobile only */}
-      <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-t border-slate-200 dark:border-slate-800 flex justify-around py-3 z-30 transition-colors duration-300">
-        {navItems.map((item) => {
-          const Icon = item.icon;
-          const active = isActive(item.path);
-          return (
-            <Link 
-              key={item.name} 
-              to={item.path} 
-              className={`flex flex-col items-center gap-1 text-[10px] font-medium transition-all ${
-                active ? 'text-emerald-500 scale-105' : 'text-slate-400 dark:text-slate-500'
-              }`}
-            >
-              <Icon className="h-5.5 w-5.5" />
-              <span>{item.name.split(' ')[0]}</span>
-            </Link>
-          );
-        })}
-      </nav>
 
       {/* Global Add/Edit Modal */}
       {isModalOpen && (

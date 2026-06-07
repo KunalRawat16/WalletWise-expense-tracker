@@ -163,6 +163,19 @@ export const AppProvider = ({ children }) => {
   const deleteGoal = (id) => {
     setGoals(prev => prev.filter(g => g.id !== id));
   };
+  const updateSettings = (newSettings) => {
+    setSettings(prev => ({ ...prev, ...newSettings }));
+  };
+
+  const resetMockData = () => {
+    localStorage.removeItem('walletwise_expenses');
+    localStorage.removeItem('walletwise_budgets');
+    localStorage.removeItem('walletwise_goals');
+    setExpenses([]);
+    setBudgets({});
+    setGoals([]);
+  };
+
 
   return (
     <AppContext.Provider value={{
@@ -184,6 +197,8 @@ export const AppProvider = ({ children }) => {
       deleteGoal,
       settings,
       setSettings,
+      updateSettings,
+      resetMockData,
       theme,
       toggleTheme
     }}>
